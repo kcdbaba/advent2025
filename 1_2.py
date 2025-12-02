@@ -10,12 +10,12 @@ with open('inputs/1.txt', 'r') as f:
     turns = [x[0]*x[1] for x in lines]
     position, zeroes = 50, 0
     for turn in turns:
-        div, next = divmod(position + turn, 100)
+        div, mod = divmod(position + turn, 100)
         zeroes += abs(div)
         if turn < 0:
-            if next == 0:
+            if mod == 0:
                 zeroes += 1
             elif position == 0:
                 zeroes -= 1
-        position = next
+        position = mod
     print(zeroes)
