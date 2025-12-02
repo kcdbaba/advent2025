@@ -18,5 +18,4 @@ with open('inputs/1.txt', 'r') as f:
             elif position == 0:
                 zeroes -= 1
         position = next
-        print((turn, position, zeroes))
     print(zeroes)
