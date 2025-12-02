@@ -1,3 +1,4 @@
+import operator
 from itertools import accumulate
 
 with open('inputs/1.txt', 'r') as f:
@@ -7,7 +8,15 @@ with open('inputs/1.txt', 'r') as f:
     lines = [(-1 if x[0] == 'L' else 1, int(x[1:])) for x in f]
     # combine direction and step count to +ve/-ve integer
     turns = [x[0]*x[1] for x in lines]
-    # starting at 50, track all positions of the safe dial (0 to 99)
-    dials = list(accumulate(turns, lambda a, b : (a+b)%100, initial=50))
-    # print number of time dial is at zero
-    print(dials.count(0))
+    position, zeroes = 50, 0
+    for turn in turns:
+        div, next = divmod(position + turn, 100)
+        zeroes += abs(div)
+        if turn < 0:
+            if next == 0:
+                zeroes += 1
+            elif position == 0:
+                zeroes -= 1
+        position = next
+        print((turn, position, zeroes))
+    print(zeroes)
