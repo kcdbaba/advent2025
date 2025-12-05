@@ -16,13 +16,13 @@ with open(INPUT_PATH, encoding='utf-8') as f:
                           if 0 <= selfx + x_off < width and 0 <= selfy + y_off < height]
         neighbour_count = sum(grid[x][y] for (x,y) in neighbour_idxs)
         return neighbour_count
-    
+
     count = 0
     for x in range(width):
         for y in range(height):
             if grid[x][y] and count_neighbouring_rolls(x, y) < 4:
-                    lines[x][y] = 'x'
-                    count += 1
+                lines[x][y] = 'x'
+                count += 1
     for line in lines:
         print(''.join(line))
     print(count)
