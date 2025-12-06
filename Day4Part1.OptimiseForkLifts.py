@@ -17,12 +17,28 @@ with open(INPUT_PATH, encoding='utf-8') as f:
         neighbour_count = sum(grid[x][y] for (x,y) in neighbour_idxs)
         return neighbour_count
 
-    count = 0
-    for x in range(width):
-        for y in range(height):
-            if grid[x][y] and count_neighbouring_rolls(x, y) < 4:
-                lines[x][y] = 'x'
-                count += 1
-    for line in lines:
-        print(''.join(line))
-    print(count)
+    def remove_all_accessible_rolls():
+        cnt = 0
+        accessible_coords = []
+        for x in range(width):
+            for y in range(height):
+                if grid[x][y] and count_neighbouring_rolls(x, y) < 4:
+                    lines[x][y] = 'x'
+                    accessible_coords.append((x,y))
+                    cnt += 1
+        #for line in lines:
+        #    print(''.join(line))
+        for (x, y) in accessible_coords:
+            grid[x][y] = False
+        return cnt
+
+count = remove_all_accessible_rolls()
+print(f'Rolls of paper to be removed after round 1: {count} ')
+rounds = 1
+more_count = count
+while more_count > 0:
+    more_count = remove_all_accessible_rolls()
+    rounds += 1
+    print(f'Rolls of paper to be removed after round {rounds}: {more_count} ')
+    count += more_count
+print(f'Total rolls of paper to be removed: {count} ')
